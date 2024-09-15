@@ -8,8 +8,9 @@ declare global {
 }
 
 function createPrismaInstance(): Prisma.PrismaClient {
-  const tmp = new PrismaClient().$extends(fieldEncryptionExtension({encryptionKey: 'k1.aesgcm256.5Xnyea7zJxVluFXDu9y259HdZwiLlR90nMhqUPc8Ubs='}));
-  return tmp;
+  // The solution was to return prisma as Prisma.PrismaClient (Copilot explained that the .$extends method could return different type, so 'as Prisma.PrismaClient' was needed to ensure the type was correct)
+  const prisma = new PrismaClient().$extends(fieldEncryptionExtension({encryptionKey: 'k1.aesgcm256.5Xnyea7zJxVluFXDu9y259HdZwiLlR90nMhqUPc8Ubs='}));
+  return prisma as Prisma.PrismaClient;
 }
 
 // const prisma = global.prisma || createPrismaInstance();
